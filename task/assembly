@@ -1,0 +1,58 @@
+input:
+
+PUSH1 0X10
+DUP1
+DUP1
+ADD
+ADD
+
+output:
+
+30
+
+input:
+
+push1 0x30
+push1 0x20
+lt
+
+output:
+
+1
+
+input:
+
+push2 0x200
+add
+dup1
+add
+
+output:
+
+600
+
+input:
+
+push1 0x30
+push1 0x35
+add
+dup1
+dup2
+add
+lt
+
+output:
+
+0
+
+input:
+
+push1 0x20
+push1 0x50
+dup2
+add
+add
+
+output:
+
+90
