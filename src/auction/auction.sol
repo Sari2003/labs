@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 import "forge-std/console.sol";
-import "@openzeppelin/ERC20/IERC20.sol";
-import "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
-import "./SafeMath.sol";
+import "@openzeppelin/ERC721/ERC721.sol";
+import "@openzeppelin/ERC20/ERC20.sol";
+
+//import "./SafeMath.sol";
 
 contract Auction is ERC20, ERC721 {
-    using SafeMath for uint256;
+  
     struct suggest{
 
-        bool flag = false;
+        bool flag;
         uint amount;
 
     }
@@ -49,7 +50,7 @@ contract Auction is ERC20, ERC721 {
                 uint lastSuggest = suggestions[msg.sender].amoumt;
                 require(msg.sender.balance >=msg.value , "you do not have enough money");
                 suggestions[msg.sender].amoumt = msg.value;
-                ERC20.transferFrom(msg.sender, address(this) , msg.value);
+               // payable(transferFrom(msg.sender, address(this) , msg.value));
                 ERC20.transfer(msg.sender, lastSuggest);
                 stack.push(msg.sender);
             }
@@ -64,7 +65,7 @@ contract Auction is ERC20, ERC721 {
        }
        else{
             start=false;
-            endAuction();
+            //endAuction();
         }
 
     }
@@ -73,19 +74,18 @@ contract Auction is ERC20, ERC721 {
 
         require(start , "The auction doesnt start");
         require(block.timestamp < end , "The Auction is over");
-        require(suggestions[msg.sender].flag == true){
+        require(suggestions[msg.sender].flag == true, "");
 
-            ERC20.transfer(msg.sender, lastSuggest);
+            //ERC20.transfer(msg.sender, lastSuggest);
             suggestions[msg.sender].flag = false;
         }
-    }
 
 
     // פונקציה שמתבצעת רק כאשר עוברים שבעה ימים מהפעלת החוזה
     function endAuction() external onlyOwner{
 
         uint i= stack.length; 
-        for(;i>=0 ; && suggestions[stack[i]].flag == false; i--);
+        for(;i>=0 && suggestions[stack[i]].flag == false; i--){}
         ERC721.transfer(suggestions[stack[i]], 1);
         for(uint j= i-1; j>=0; j--){
             if(suggestions[stack[i]].flag)
