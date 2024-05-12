@@ -12,6 +12,8 @@ contract Auction is ERC20, ERC721 {
 
         bool flag;
         uint amount;
+        uint tokenId;
+
 
     }
     address payable private owner;
@@ -19,13 +21,12 @@ contract Auction is ERC20, ERC721 {
     uint256 max;
     bool start=false;
     uint end;
-    address[] public stack;
-    uint256 public activationTime;//זמן ההפעלה של החוזה
-    uint256 public constant SEVEN_DAYS = 7 days;// זמן קיום המכירה
+    address[] public stack;    
+    uint256 public constant SEVEN_DAYS = 604800;// שבעה ימים בשניות של קיום המכירה
 
      constructor() {
         owner = payable(msg.sender);
-        end = block.timestamp() + 7;
+        end = block.timestamp + SEVEN_DAYS;
         start = true;
        
     }
@@ -37,35 +38,39 @@ contract Auction is ERC20, ERC721 {
     }
 
     //הכנסת הצעה חדשה
-    function addSuggest() public {
+    function addSuggest(uint amount, uint tokenId) public {
 
         require(start , "The auction doesnt start");
         if(block.timestamp < end){
             //הכנסת הצעה חדשה רק במקרה שההצעה הקודמת קטנה ממנה
-            require (suggestions[stack[stack.length]].amoumt < msg.sender, "You should offer a higher amount");
-                
-                //במקרה שהבן אדם כבר קיים
-            if (suggestions[msg.sender].amoumt > 0 ){ 
+            require (suggestions[stack[stack.length]].amount < amount, "You should offer a higher amount");
+              
+                //במקרה שהמציע כבר קיים
+            if (suggestions[msg.sender].amount > 0 ){ 
 
-                uint lastSuggest = suggestions[msg.sender].amoumt;
-                require(msg.sender.balance >=msg.value , "you do not have enough money");
-                suggestions[msg.sender].amoumt = msg.value;
-               // payable(transferFrom(msg.sender, address(this) , msg.value));
-                ERC20.transfer(msg.sender, lastSuggest);
+                uint lastSuggest = suggestions[msg.sender].amount;
+                require(msg.sender.balance >= amount , "you do not have enough money");
+                suggestions[msg.sender].amount = amount;
+                suggestions[msg.sender].tokenId = tokenId;
+                 //קבלת הכסף של ההצעה החדשה של לקוח קיים
+                 transferFrom(msg.sender,address(this),amount);
+                 //החזרת הכסף של ההצעה הקודמת
+                payable(suggestions[msg.sender]).transfer(lastSuggest);                     
                 stack.push(msg.sender);
             }
             else {//משתמש חדש
 
-                require(msg.sender.balance >=msg.value , "you do not have enough money");
-                suggestions[msg.sender].amoumt= msg.value;
+                require(msg.sender.balance >=amount , "you do not have enough money");
+                suggestions[msg.sender].amount= amount;
+                suggestions[msg.sender].tokenId = tokenId;
                 suggestions[msg.sender].flag = true;
-                ERC20.transferFrom(msg.sender, address(this) , msg.value);
+                transferFrom(msg.sender, address(this) , amount);
                 stack.push(msg.sender);
             }
        }
        else{
             start=false;
-            //endAuction();
+            endAuction();
         }
 
     }
@@ -76,7 +81,7 @@ contract Auction is ERC20, ERC721 {
         require(block.timestamp < end , "The Auction is over");
         require(suggestions[msg.sender].flag == true, "");
 
-            //ERC20.transfer(msg.sender, lastSuggest);
+            payable(suggestions[msg.sender]).transfer(suggestions[msg.sender].amount);    
             suggestions[msg.sender].flag = false;
         }
 
@@ -86,10 +91,12 @@ contract Auction is ERC20, ERC721 {
 
         uint i= stack.length; 
         for(;i>=0 && suggestions[stack[i]].flag == false; i--){}
-        ERC721.transfer(suggestions[stack[i]], 1);
+        //ERC721.transferfrom(address(this), stack[i], suggestions[stack[i]].tokenId);
+        IERC721(stack[i]).transferFrom(address(this), suggestions[stack[i]].tokenId);
         for(uint j= i-1; j>=0; j--){
             if(suggestions[stack[i]].flag)
-                ERC20.transfer(suggestions[stack[j]], suggestions[stack[j]].amoumt);
+            //החזרת הכסף לכל ההצעות שלא זכו לאחר סיום המכירה
+             payable(suggestions[stack[j]]).transfer(suggestions[stack[j]].amount);         
         }
 
     }
