@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 import "forge-std/console.sol";
 import "@openzeppelin/ERC721/ERC721.sol";
 
-contract AuctionTest in Test {
+contract AuctionTest is Test {
 
     Auction auction;
    

@@ -3,6 +3,7 @@ pragma solidity ^0.8.20;
 import "forge-std/console.sol";
 import "@openzeppelin/ERC721/ERC721.sol";
 import "@openzeppelin/ERC20/ERC20.sol";
+import "/home/user/Documents/labs/src/audit/approve.sol"
 
 //import "./SafeMath.sol";
 
@@ -28,6 +29,7 @@ contract Auction is ERC20, ERC721 {
         owner = payable(msg.sender);
         end = block.timestamp + SEVEN_DAYS;
         start = true;
+        IERC721.mint(1);
        
     }
     modifier onlyOwner(){
@@ -91,8 +93,8 @@ contract Auction is ERC20, ERC721 {
 
         uint i= stack.length; 
         for(;i>=0 && suggestions[stack[i]].flag == false; i--){}
-        //ERC721.transferfrom(address(this), stack[i], suggestions[stack[i]].tokenId);
-        IERC721(stack[i]).transferFrom(address(this), suggestions[stack[i]].tokenId);
+        IERC721.approve(stack[i],suggestions[stack[i]].tokenId);
+        IERC721.transferFrom(address(this),stack[i], suggestions[stack[i]].tokenId);
         for(uint j= i-1; j>=0; j--){
             if(suggestions[stack[i]].flag)
             //החזרת הכסף לכל ההצעות שלא זכו לאחר סיום המכירה
