@@ -4,12 +4,12 @@ import "forge-std/console.sol";
 import "@openzeppelin/ERC721/ERC721.sol";
 import "@openzeppelin/ERC20/ERC20.sol";
 import "/home/user/Documents/labs/src/audit/approve.sol"
-
-
-//import "./SafeMath.sol";\
 import "./TokenNFT.sol";
 
-contract Auction is ERC20, ERC721 {
+//import "./SafeMath.sol";\
+
+
+contract Auction is IERC20 {
   
     struct suggest{
 
@@ -32,6 +32,7 @@ contract Auction is ERC20, ERC721 {
         owner = payable(msg.sender);
         end = block.timestamp + SEVEN_DAYS;
         start = true;
+        nft= new TokenNFT();
   
        
     }
@@ -69,6 +70,7 @@ contract Auction is ERC20, ERC721 {
                 suggestions[msg.sender].amount= amount;
                 suggestions[msg.sender].tokenId = tokenId;
                 suggestions[msg.sender].flag = true;
+                //קבלת הכסף מהמשתמש
                 transferFrom(msg.sender, address(this) , amount);
                 stack.push(msg.sender);
             }
@@ -85,7 +87,7 @@ contract Auction is ERC20, ERC721 {
         require(start , "The auction doesnt start");
         require(block.timestamp < end , "The Auction is over");
         require(suggestions[msg.sender].flag == true, "");
-
+            //החזרת הסף למשתמש לאחר ההסרה
             payable(suggestions[msg.sender]).transfer(suggestions[msg.sender].amount);    
             suggestions[msg.sender].flag = false;
         }
