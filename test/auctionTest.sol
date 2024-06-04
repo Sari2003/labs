@@ -11,7 +11,7 @@ contract AuctionTest is Test {
 
     Auction public auction;
     address public owner= address(123);
-    MyERC721 public nft;
+    TokenNFT public nft;
     uint tokenId=1;
  
     function setUp() public {

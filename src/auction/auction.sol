@@ -6,7 +6,8 @@ import "@openzeppelin/ERC20/ERC20.sol";
 import "/home/user/Documents/labs/src/audit/approve.sol"
 
 
-//import "./SafeMath.sol";
+//import "./SafeMath.sol";\
+import "./TokenNFT.sol";
 
 contract Auction is ERC20, ERC721 {
   
@@ -26,12 +27,12 @@ contract Auction is ERC20, ERC721 {
     address[] public stack;    
     uint256 public constant SEVEN_DAYS = 604800;// שבעה ימים בשניות של קיום המכירה
     address winnerAddress;
-    IERC721 myToken;
+    TokenNFT public nft;
      constructor() {
         owner = payable(msg.sender);
         end = block.timestamp + SEVEN_DAYS;
         start = true;
-  //      myToken.mint(1);
+  
        
     }
     modifier onlyOwner(){
@@ -96,8 +97,8 @@ contract Auction is ERC20, ERC721 {
         uint i= stack.length; 
         for(;i>=0 && suggestions[stack[i]].flag == false; i--){}
         winnerAddress = stack[i];
-        //myToken.approve(stack[i],suggestions[stack[i]].tokenId);
-        my.transferFrom(address(this),stack[i], suggestions[stack[i]].tokenId);
+        //nft.approve(stack[i],suggestions[stack[i]].tokenId);
+        nft.transferFrom(address(this),stack[i], suggestions[stack[i]].tokenId);
         for(uint j= i-1; j>=0; j--){
             if(suggestions[stack[i]].flag)
             //החזרת הכסף לכל ההצעות שלא זכו לאחר סיום המכירה
