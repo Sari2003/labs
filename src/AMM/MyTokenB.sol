@@ -2,7 +2,7 @@
 pragma solidity 0.8.20;
 
 import "forge-std/console.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/ERC20/IERC20.sol";
 
 // import "forge-std/interfaces/IERC20.sol";
 

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./MyTokenA.sol";
-import "./MyTokenB.sol";
+import "@openzeppelin/ERC20/ERC20.sol";
+import "@hack/AMM/MyTokenA.sol";
+import "@hack/AMM/MyTokenB.sol";
+
 
 pragma solidity ^0.8.20;
 

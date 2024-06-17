@@ -3,8 +3,8 @@ pragma solidity ^0.8.20;
 import "forge-std/console.sol";
 import "@openzeppelin/ERC721/ERC721.sol";
 import "@openzeppelin/ERC20/ERC20.sol";
-import "/home/user/Documents/labs/src/audit/approve.sol"
-import "./TokenNFT.sol";
+import "@hack/audit/approve.sol";
+import "@hack/auction/TokenNFT.sol";
 
 //import "./SafeMath.sol";\
 

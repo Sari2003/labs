@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.20;
 
-import "../../src/Amm/my_tokenA.sol";
-import "../../src/Amm/my_tokenB.sol";
-import "../../src/Amm/amm.sol";
+import "@hack/AMM/MyTokenA.sol";
+import "@hack/AMM/MyTokenB.sol";
+import "@hack/AMM/AMM.sol";
 import {Test, console} from "forge-std/Test.sol";
 
 contract AmmTest is Test {

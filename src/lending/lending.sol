@@ -1,4 +1,4 @@
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.20;
 
 import "forge-std/console.sol";
 import "../../lib/chainlink/contracts/src/v0.8/l2ep/dev/arbitrum/ArbitrumSequencerUptimeFeed.sol";
@@ -6,10 +6,10 @@ import "../../lib/chainlink/contracts/src/v0.8/interfaces/FeedRegistryInterface.
 import "../../lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import "../../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 import "../../lib/openzeppelin-contracts/contracts/utils/math/Math.sol";
-import "../math/Math.sol";
-import "../interfaces/IUniswapRouter.sol";
-import "../interfaces/IWETHGateway.sol";
-import "../interfaces/ILendingPool.sol";
+import "math/Math.sol";
+import "@hack/lending/interfaces/IUniswapRouter.sol";
+import "@hack/lending/interfaces/IWETHGateway.sol";
+import "@hack/lending/interfaces/ILendingPool.sol";
 import "./bondToken.sol";
 
 contract lending is Math1 {

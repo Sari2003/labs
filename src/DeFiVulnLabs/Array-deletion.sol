@@ -34,7 +34,7 @@ contract ArrayDeletionBug{
 
     uint[] public arr=[1,2,3,4,5];
 
-    function deleteElement(uint index)external()
+    function deleteElement(uint index)external
     {
         require(index<arr.length,"invalid index");
         delete arr[index];
@@ -51,7 +51,7 @@ contract FixedArrayDeletion {
     
     uint[] public arr=[1,2,3,4,5];
 
-    function deleteElement(uint index)external(){
+    function deleteElement(uint index)external{
 
            require(index<arr.length,"invalid index");
            arr[index]=arr[arr.length-1];

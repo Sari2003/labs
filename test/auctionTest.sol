@@ -4,8 +4,8 @@ import "foundry-huff/HuffDeployer.sol";
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
 import "@openzeppelin/ERC721/ERC721.sol";
-import "/home/user/Documents/labs/src/auction/nft.sol";
-import "/home/user/Documents/labs/src/auction/auction.sol";
+import "@hack/auction/TokenNFT.sol";
+import "@hack/auction/auction.sol";
 
 contract AuctionTest is Test {
 

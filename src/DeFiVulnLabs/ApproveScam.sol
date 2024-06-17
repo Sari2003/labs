@@ -39,10 +39,10 @@ interface IERC20{
 
    function transfer (address recipient, uint amount) external returns(bool);
 
-   function allowance{
+   function allowance(
     address owner,
     address spender
-   } external view returns(uint);
+   ) external view returns(uint);
 
    function approve(address spender, uint amount) external returns(bool);
 
