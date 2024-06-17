@@ -1,5 +1,6 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
-//dont get it
+
 contract EtherUnits {
     uint256 public oneWei = 1 wei;
     // 1 wei is equal to 1
