@@ -9,15 +9,13 @@ import "@hack/auction/TokenNFT.sol";
 //import "./SafeMath.sol";\
 
 
-contract Auction is IERC20 {
+contract Auction {
   
     struct suggest{
 
         bool flag;
         uint amount;
         uint tokenId;
-
-
     }
     address payable private owner;
     mapping(address => suggest) public suggestions;
